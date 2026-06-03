@@ -1,0 +1,48 @@
+{% load money %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ bike }}</title>
+</head>
+<body>
+    <a href="{% url 'garage:home' %}">Moto Garage</a>
+      |
+    <a href="{% url 'garage:motorcycle_list' %}">
+    My Motorcycles
+    </a>
+    
+    <h1>{{ bike }}</h1>
+
+    <a href="{% url 'garage:service_create' bike.pk %}">
+        Add Maintenance Event
+    </a>
+
+    <p>Brand: {{ bike.brand }}</p>
+    <p>Model: {{ bike.model }}</p>
+    <p>Year: {{ bike.year }}</p>
+    <p>Odometer: {{ bike.current_odometer_km }} km</p>
+
+    {% if bike.notes %}
+        <p>Notes: {{ bike.notes }}</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Maintenance History</h2>
+
+    {% for event in bike.maintenance_events.all %}
+        <div>
+            <p><strong>{{ event.service_date }}</strong></p>
+            <p>{{ event.odometer_km }} km</p>
+            <p>{{ event.title }}</p>
+            <p>Type: {{ event.get_service_type_display }}</p>
+            <p>Total: {{ event.total_php|format_php }}</p>
+        </div>
+
+        <hr>
+    {% empty %}
+        <p>No maintenance records yet.</p>
+    {% endfor %}
+
+   <h3>Lifetime Spend: {{ lifetime_spend|format_php }}</h3>

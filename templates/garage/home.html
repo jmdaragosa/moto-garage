@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  {% if user.is_authenticated %}
+
+    <p>
+      Welcome back, {{ user.username }}.
+    </p>
+
+  {% else %}
+
+    <p>
+      Please log in to manage your motorcycles and maintenance records.
+    </p>
+
+  {% endif %}
+{% endblock %}

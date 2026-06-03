@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Motorcyces</title>
+</head>
+<body>
+    <h1>My Motorcycles</h1>
+
+    <a href="{% url 'garage:home' %}">Moto Garage</a>
+      |
+    <a href="{% url 'garage:motorcycle_create' %}">Add Motorcycle</a>
+    <hr>
+
+    {% for bike in bikes %}
+    <div>
+        <h2>Bikes</h2>
+        <div>
+            <h3><a href="{% url 'garage:motorcycle_detail' bike.pk %}"> {{ bike.brand }} {{ bike.model }}</a></h3>
+            <p>Odometer: {{ bike.current_odometer_km }} km </p>
+
+            {% if bike.vin %}
+            <p>VIN: {{ bike.vin }}</p>
+            {% endif %}
+
+            {% if bike.notes %}
+            <p>Note: {{ bike.notes }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    {% empty %}
+    <p>No motorcycles yet.</p>
+    {% endfor %}
+</body>
+</html>

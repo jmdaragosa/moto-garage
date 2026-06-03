@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Motorcycle</title>
+    </head>
+    <body>
+        <a href="{% url 'garage:motorcycle_list' %}">
+            My Motorcycles
+        </a>
+        |
+        <a href="{% url 'garage:home' %}">Moto Garage</a>
+        <h1>Add Motorcycle</h1>
+        <form method="post">
+            {% csrf_token %}
+
+            {{form.as_p}}
+
+            <button type="submit">Save</button>
+        </form>
+    </body>
+</html>

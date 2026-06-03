@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{% block title %}Moto Garage{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="{% url 'garage:home' %}">
+          Moto Garage
+        </a>
+
+        {% if user.is_authenticated %}
+
+          | 
+
+          <a href="{% url 'garage:motorcycle_list' %}">
+            My Motorcycles
+          </a>
+
+          |
+
+          <a href="{% url 'garage:motorcycle_create' %}">
+            Add Motorcycle
+          </a>
+
+          |
+
+          <form
+            method="post"
+            action="{% url 'logout' %}"
+            style="display:inline;"
+          >
+            {% csrf_token %}
+
+            <button type="submit">
+              Logout
+            </button>
+          </form>
+
+        {% else %}
+
+          |
+
+          <a href="{% url 'login' %}">
+            Login
+          </a>
+
+        {% endif %}
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

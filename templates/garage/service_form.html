@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add Service — {{ bike }}</h1>
+
+<form method="post">
+
+  {% csrf_token %}
+
+  <fieldset>
+    <legend>Service Event</legend>
+
+    {{ form.as_p }}
+  </fieldset>
+
+  <fieldset>
+    <legend>Line Items</legend>
+
+    {{ formset.management_form }}
+
+    <div id="line-items">
+
+    {% for line_form in formset %}
+
+        <div class="line-item">
+
+        {{ line_form.as_p }}
+
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+    <button type="button" id="add-item">
+
+    Add Another Item
+
+    </button>
+  </fieldset>
+
+  <button type="submit">
+    Save Service
+  </button>
+
+</form>
+
+<script>
+
+  const addButton = document.getElementById("add-item");
+
+  const totalForms = document.querySelector(
+
+    'input[name$="-TOTAL_FORMS"]'
+
+  );
+
+  const container = document.getElementById("line-items");
+
+  addButton.addEventListener("click", function () {
+
+    const currentFormCount = parseInt(totalForms.value);
+
+    const firstForm = document.querySelector(".line-item");
+
+    const newForm = firstForm.cloneNode(true);
+
+    newForm.innerHTML = newForm.innerHTML.replaceAll(
+
+      "-0-",
+
+      `-${currentFormCount}-`
+
+    );
+
+    newForm.querySelectorAll("input").forEach(input => {
+
+      if (
+
+        input.type !== "hidden" &&
+
+        input.type !== "checkbox"
+
+      ) {
+
+        input.value = "";
+
+      }
+
+      if (input.type === "checkbox") {
+
+        input.checked = false;
+
+      }
+
+    });
+
+    container.appendChild(newForm);
+
+    totalForms.value = currentFormCount + 1;
+
+  });
+
+</script>
+{% endblock %}
