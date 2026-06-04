@@ -10,6 +10,8 @@ This file is intentionally mostly empty. You will build forms in docs/YOUR_TURN.
 from django import forms
 from django.forms import inlineformset_factory
 from .models import Motorcycle, MaintenanceEvent, LineItem
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class MotorcycleForm(forms.ModelForm):
      class Meta:
@@ -35,3 +37,8 @@ LineItemFormSet = inlineformset_factory(
      extra=1,
      can_delete=False,
 )
+
+class SignUpForm(UserCreationForm):
+     class Meta:
+          model = User
+          fields = ("username", "password1","password2")

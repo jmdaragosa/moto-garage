@@ -11,51 +11,21 @@
 
   <body>
     <header>
-      <nav>
-        <a href="{% url 'garage:home' %}">
-          Moto Garage
-        </a>
+  <a href="{% url 'garage:home' %}">Moto Garage</a>
 
-        {% if user.is_authenticated %}
-
-          | 
-
-          <a href="{% url 'garage:motorcycle_list' %}">
-            My Motorcycles
-          </a>
-
-          |
-
-          <a href="{% url 'garage:motorcycle_create' %}">
-            Add Motorcycle
-          </a>
-
-          |
-
-          <form
-            method="post"
-            action="{% url 'logout' %}"
-            style="display:inline;"
-          >
-            {% csrf_token %}
-
-            <button type="submit">
-              Logout
-            </button>
-          </form>
-
-        {% else %}
-
-          |
-
-          <a href="{% url 'login' %}">
-            Login
-          </a>
-
-        {% endif %}
-      </nav>
-    </header>
-
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+    </form>
+    <a href="{% url 'garage:motorcycle_list' %}">
+    My Motorcycles
+    </a>
+  {% else %}
+    <a href="{% url 'garage:login' %}">Login</a>
+    <a href="{% url 'garage:signup' %}">Sign Up</a>
+  {% endif %}
+</header>
     <main>
       {% block content %}{% endblock %}
     </main>

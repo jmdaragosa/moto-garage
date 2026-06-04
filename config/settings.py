@@ -1,25 +1,32 @@
-"""
-Django settings for moto-garage.
-
-LEARN: Settings are just Python variables Django reads at startup.
-Secrets (SECRET_KEY) belong in environment variables, not in git.
-"""
-
+from pathlib import Path
 import os
 import dj_database_url
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = False
+# --------------------
+# CORE SECURITY SETTINGS
+# --------------------
+
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-dev-only-key"
+)
+
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
 
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".onrender.com",
 ]
+
+
+# --------------------
+# APPLICATIONS
+# --------------------
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -30,6 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "garage.apps.GarageConfig",
 ]
+
+
+# --------------------
+# MIDDLEWARE
+# --------------------
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -42,7 +54,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "config.urls"
+
+
+# --------------------
+# TEMPLATES
+# --------------------
 
 TEMPLATES = [
     {
@@ -59,7 +77,13 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = "config.wsgi.application"
+
+
+# --------------------
+# DATABASE
+# --------------------
 
 DATABASES = {
     "default": dj_database_url.config(
@@ -68,6 +92,11 @@ DATABASES = {
     )
 }
 
+
+# --------------------
+# PASSWORD VALIDATION
+# --------------------
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -75,22 +104,42 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+
+# --------------------
+# INTERNATIONALIZATION
+# --------------------
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Manila"
 USE_I18N = True
 USE_TZ = True
 
+
+# --------------------
+# STATIC FILES
+# --------------------
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+
+# --------------------
+# DEFAULT AUTO FIELD
+# --------------------
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# You will wire login in Exercise 9.
+
+# --------------------
+# AUTH SETTINGS
+# --------------------
+
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/motorcycles/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
